@@ -48,7 +48,7 @@ class TestLab07Functions(unittest.TestCase):
         That makes the short side of the triangle value 1/2, or 0.5
         But since it is in the second quadrant, it is -1/2 or -0.5
         """
-        self.assertAlmostEqual(ithOfNPointsOnCircleX(1,3,1), -0.5, 3)
+        self.assertAlmostEqual(ithOfNPointsOnCircleX(1,3,1), -0.5, 3) 
 
     def test_ithOfNPointsOnCircleX_10(self):
         """
@@ -113,3 +113,5 @@ if __name__ == '__main__':
     #      such as test_FtoC  or test_isString
 
     # runTestsWithPrefix("lab07Tests.py","test_ithOfNPointsOnCircleX") 
+
+# xx
