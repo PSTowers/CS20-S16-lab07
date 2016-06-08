@@ -1,5 +1,4 @@
-# @@@ INSERT YOUR NAME HERE
-
+# Preston Towers
 # lab07 for cs20, S16, UCSB (Instructor: Conrad)
 
 # function ithOfNPointsOnCircleX
@@ -24,8 +23,12 @@ def ithOfNPointsOnCircleX(i,n,r):
     #   Basic formula is x = r cos (theta)
     #   But you need to use Python notation, and the math module
     #   The theta angle is in radians, and is some "portion" of 2 pi  
+
+    a = ((2*math.pi)/n)*(i)
+    x = math.cos(a)
+    x = x*r
     
-    return "stub" 
+    return x 
 
 def ithOfNPointsOnCircleY(i,n,r):
     """ 
@@ -35,9 +38,12 @@ def ithOfNPointsOnCircleY(i,n,r):
     """
 
     # Hints: similar to ithOfNPointsOnCircleX, but use r sin (theta)
-    
-    return "stub" # Hint: r sin(theta)
 
+    a = ((2*math.pi)/n)*(i)
+    y = math.sin(a)
+    y = y*r
+    
+    return y
 
 
 # NEXT, now that we have a way to compute the i points around a circle,
@@ -59,13 +65,12 @@ def drawPolygon(t,r,n):
     for i in range(1,n):   # gives points 1 through n-1
         t.goto( ithOfNPointsOnCircleX(i,n,r),
                 ithOfNPointsOnCircleY(i,n,r) )
+    
+    t.goto(r,0) # closes the polygon by returning to the starting point
 
     # That drew almost all the way around---for example, it drew
     #  three sides if we are drawing a square.  To finish, we need to
     #  return to the starting point
-
-    # @@@ PUT IN A LINE OF CODE HERE THAT WILL RETURN TO THE STARTING POINT
-    # @@@ PUT AN APPROPRIATE COMMENT BEFORE THE LINE, AND REMOVE THESE COMMENTS
 
 
     # Now pick up the pen, and move back to 0,0, facing east
@@ -83,16 +88,12 @@ def tryIt():
     # create a turtle
     sheila = turtle.Turtle()
 
-    # @@@ As you work, try uncommenting different lines below to
-    # @@@ test your functions
-
     drawPolygon(sheila, 50.0, 3)
-    #drawPolygon(sheila, 100.0, 6)
-    #drawPolygon(sheila, 200.0, 8)
-    #drawStar(sheila, 40.0, 3) # should draw NOTHING
-    #drawStar(sheila, 80.0, 5)
-    #drawStar(sheila, 160.0, 6)
-
+    drawPolygon(sheila, 100.0, 6)
+    drawPolygon(sheila, 200.0, 8)
+    drawStar(sheila, 40.0, 3) # should draw NOTHING
+    drawStar(sheila, 80.0, 5)
+    drawStar(sheila, 160.0, 6)
 
 
 # drawStar (turtle, float, int) => void
@@ -213,5 +214,5 @@ def Main():
 
 
 if __name__ == "__main__":
-    tryIt()  # @@@ COMMENTED OUT AT FIRST
+    tryIt()  
     # Main()   # @@@ COMMENTED OUT AT FIRST
