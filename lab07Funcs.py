@@ -11,6 +11,7 @@
 #   the x value of that point in the cartesian plane
 
 import math
+import turtle
 
 def ithOfNPointsOnCircleX(i,n,r):
     """ 
@@ -19,16 +20,13 @@ def ithOfNPointsOnCircleX(i,n,r):
     point 0 is at angle 0, as of on a unit circle, i.e. at point (0,r)
     """
 
-    # Hints:
-    #   Basic formula is x = r cos (theta)
-    #   But you need to use Python notation, and the math module
-    #   The theta angle is in radians, and is some "portion" of 2 pi  
-
     a = ((2*math.pi)/n)*(i)
     x = math.cos(a)
     x = x*r
     
     return x 
+
+
 
 def ithOfNPointsOnCircleY(i,n,r):
     """ 
@@ -37,17 +35,12 @@ def ithOfNPointsOnCircleY(i,n,r):
     point 0 is at angle 0, as of on a unit circle, i.e. at point (0,r)
     """
 
-    # Hints: similar to ithOfNPointsOnCircleX, but use r sin (theta)
-
     a = ((2*math.pi)/n)*(i)
     y = math.sin(a)
     y = y*r
     
     return y
 
-
-# NEXT, now that we have a way to compute the i points around a circle,
-# we can draw some polygons and some stars
 
 
 def drawPolygon(t,r,n):
@@ -68,32 +61,13 @@ def drawPolygon(t,r,n):
     
     t.goto(r,0) # closes the polygon by returning to the starting point
 
-    # That drew almost all the way around---for example, it drew
-    #  three sides if we are drawing a square.  To finish, we need to
-    #  return to the starting point
-
 
     # Now pick up the pen, and move back to 0,0, facing east
 
     t.up(); t.goto(0,0); t.setheading(0);
 
 
-# tryIt function: this is a function you can call to test different
-#  function calls to your drawPolygon and drawStar functions
 
-import turtle
-
-
-def tryIt():
-    # create a turtle
-    sheila = turtle.Turtle()
-
-    drawPolygon(sheila, 50.0, 3)
-    drawPolygon(sheila, 100.0, 6)
-    drawPolygon(sheila, 200.0, 8)
-    drawStar(sheila, 40.0, 3) # should draw NOTHING
-    drawStar(sheila, 80.0, 5)
-    drawStar(sheila, 160.0, 6)
 
 
 # drawStar (turtle, float, int) => void
@@ -153,26 +127,84 @@ def drawStar(t,r,n):
 
 
 
-# @@@ Now, make a version of drawStar that is generalized called drawStarAtXY
-# @@@ This is a generalization of the drawStar function--what is NOT hard coded
-# @@@ is that the center of the star does not have to be at 0,0
-
 def drawStarAtXY(t,r,n,x,y):
     """ 
     using turtle t, draw a star with n points centered at (x,y)
     r is the circle that would circumsribe the star
     """
 
-    # @@@ Start with the same code as in drawStar(t,r,n)
-    # @@@ You just need to add x and y to the values returned from
-    # @@@ ithOfNPointsOnCircleX and ithOfNPointsOnCircleY
-    # @@@ Test by calling testDrawStarAtXY() at the Python Command Prompt
+    if n<5:
+        return     # Doesn't return anything.  It just ends the function call
 
- 
+    # pick up the pen
+    t.up();
+
+    t.goto(x,y)
+    # connect the dots for all the points
     
-    return   # stub!
+    for i in range(n):   # gives points 0 through n-1
+
+        # pen is up---we move to this point    
+            
+        t.goto( ithOfNPointsOnCircleX(i,n,r) + x,
+                ithOfNPointsOnCircleY(i,n,r) + y)
+
+        # put the pen down
+
+        t.down()
+
+        # now draw a line to the point two points away from this one
+        
+        t.goto( ithOfNPointsOnCircleX(i+2,n,r) + x,
+                ithOfNPointsOnCircleY(i+2,n,r) + y )
+
+        # lift the pen back up
+
+        t.up()
+
+        
+    # Now pick up the pen, and move back to 0,0, facing east
+
+    t.up(); t.goto(0,0); t.setheading(0);
 
 
+
+def drawPolygonAtXY(t,n,r,x,y):
+    """
+    draw a polygon of n sides, centered at (x,y)
+    r is radius of the circle that would circumscribe the polygon
+    leave turtle at position (x,y) facing right
+    """
+
+    # pick up the pen, move to the starting point, and put down the pen
+    t.up(); t.goto(x+r,y); t.down()
+
+    # connect the dots for all the points
+    
+    for i in range(1,n):   # gives points 1 through n-1
+        t.goto( ithOfNPointsOnCircleX(i,n,r) + x,
+                ithOfNPointsOnCircleY(i,n,r) + y )
+    
+    t.goto(x+r,y) # closes the polygon by returning to the starting point
+
+
+    # Now pick up the pen, and move back to 0,0, facing east
+
+    t.up(); t.goto(0,0); t.setheading(0);
+
+
+# tests for draw functions
+
+def tryIt():
+    # create a turtle
+    sheila = turtle.Turtle()
+
+    drawPolygon(sheila, 50.0, 3)
+    drawPolygon(sheila, 100.0, 6)
+    drawPolygon(sheila, 200.0, 8)
+    drawStar(sheila, 40.0, 3) # should draw NOTHING
+    drawStar(sheila, 80.0, 5)
+    drawStar(sheila, 160.0, 6)
 
 def testDrawStarAtXY():
     """
@@ -187,20 +219,11 @@ def testDrawStarAtXY():
     drawStarAtXY(estrella, 80.0, 5, 100,100)  
     drawStarAtXY(estrella, 70.0, 6, 100,-100)
     drawStarAtXY(estrella, 40.0,  8, 200,200)
-
-
-def drawPolygonAtXY(t,n,r,x,y):
-    """
-    draw a polygon of n sides, centered at (x,y)
-    r is radius of the circle that would circumscribe the polygon
-    leave turtle at position (x,y) facing right
-    """
-
-    return #stub
-
+    
 def testDrawPolygonAtXY():
     """ test drawPolygonAtXY(); polygons should appear in 2nd and 3rd quadrants """
 
+    # create a turtle
     dave = turtle.Turtle()
 
     drawPolygonAtXY(dave, 3, 50.0, -200,0)
@@ -212,7 +235,6 @@ def Main():
     testDrawStarAtXY()
     testDrawPolygonAtXY()
 
-
 if __name__ == "__main__":
-    tryIt()  
-    # Main()   # @@@ COMMENTED OUT AT FIRST
+    #tryIt()  
+    Main()   
